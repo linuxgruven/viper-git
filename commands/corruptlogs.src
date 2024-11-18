@@ -10,28 +10,28 @@ corruptlogs.run=function(object,argv)
   if typeof(object)=="file" then fileObj=object
   if not findFile(fileObj,"/var/system.log") or not findFile(fileObj,"/var/system.log").has_permission("w") then return print(do_style("No permissions","red","static"))
   if typeof(object)=="shell" then
-      object=object.host_computer
-      object.touch("/var","system.bac")
-      syslogbak=object.File("/var/system.bac")
-      syslogbak.set_content("")
-      syslog=object.File("/var/system.log")
-      syslog.delete
-      syslogbak.move("/var","system.log")
+    object=object.host_computer
+    object.touch("/var","system.bac")
+    syslogbak=object.File("/var/system.bac")
+    syslogbak.set_content("")
+    syslog=object.File("/var/system.log")
+    syslog.delete
+    syslogbak.move("/var","system.log")
   else if typeof(object)=="computer" then
-      object.touch("/var","system.bac")
-      syslogbak=object.File("/var/system.bac")
-      syslogbak.set_content("")
-      syslog=object.File("/var/system.log")
-      syslog.delete
-      syslogbak.move("/var","system.log")
+    object.touch("/var","system.bac")
+    syslogbak=object.File("/var/system.bac")
+    syslogbak.set_content("")
+    syslog=object.File("/var/system.log")
+    syslog.delete
+    syslogbak.move("/var","system.log")
   else if typeof(object)=="file" then
-      fstab=findFile(object,"/etc/fstab")
-      fstab.copy("/var","system.bac")
-      syslogbak=findFile(object,"/var/system.bac")
-      syslogbak.set_content("")
-      syslog=findFile(object,"/var/system.log")
-      syslog.delete
-      syslogbak.move("/var","system.log")
+    fstab=findFile(object,"/etc/fstab")
+    fstab.copy("/var","system.bac")
+    syslogbak=findFile(object,"/var/system.bac")
+    syslogbak.set_content("")
+    syslog=findFile(object,"/var/system.log")
+    syslog.delete
+    syslogbak.move("/var","system.log")
   end if
   cleared=do_style("Logs are corrupted!","green","static")
   print(cleared)

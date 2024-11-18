@@ -1,0 +1,11 @@
+get_all=function(object)
+  root=check_file(object,"/")
+	files=[]
+	folder=get_folders(root)+get_files(root)
+	while len(folder)
+		file=pull(folder)
+		if is_folder(file) then folder=folder+get_folders(file)+get_files(file)
+		push(files,file)
+	end while
+	return files
+end function

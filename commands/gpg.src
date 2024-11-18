@@ -15,7 +15,7 @@ gpg.run=function(object,argv)
   encString=argv[2]
   file=findFile(object,argv[2])
   if file!=null then
-      encString=file.get_content
+    encString=file.get_content
   end if
   r=AES128(type,key,encString)
   if typeof(r)=="null" then r="Error"

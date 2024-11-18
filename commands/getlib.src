@@ -17,9 +17,7 @@ getlib.run=function(object,argv)
         libVersion=newObject.load(argv[0]).version
       else
         for library in main_session.libList
-          if typeof(library["value"].lib)=="MetaxploitLib" and library["value"].publicIP==object.host_computer.public_ip and library["value"].localIP==object.host_computer.local_ip then
-            libVersion=library["value"].lib.load(argv[0]).version
-          end if 
+          if typeof(library["value"].lib)=="MetaxploitLib" and library["value"].publicIP==object.host_computer.public_ip and library["value"].localIP==object.host_computer.local_ip then libVersion=library["value"].lib.load(argv[0]).version
         end for
       end if
       main_session.libList[main_session.libList.len]={"lib":newObject,"publicIP":object.host_computer.public_ip,"localIP":object.host_computer.local_ip,"version":libVersion,"used":0}

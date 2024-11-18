@@ -4,7 +4,7 @@ main_path = os.path.dirname(os.path.abspath(__file__))
 
 print(main_path)
 
-out_file = main_path+"//viper.src"
+out_file = main_path+"//dddd.src"
 
 paths = [
     main_path+"//libs",
