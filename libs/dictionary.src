@@ -1,0 +1,28 @@
+import_code("./dictionary/list-1.src")
+import_code("./dictionary/list-2.src")
+import_code("./dictionary/list-3.src")
+import_code("./dictionary/list-4.src")
+import_code("./dictionary/list-5.src")
+import_code("./dictionary/list-6.src")
+load_passwords=function
+  print("Loading passwords...")
+
+  print("complete")
+end function
+load_rainbow=function
+  print("Generating rainbow tables...")
+
+  print("complete")
+end function
+find_password=function(hash)
+  
+end function
+crack_hash=function(hash)
+
+end function
+get_password=function(hash)
+
+end function
+get_rootshell=function(shell)
+
+end function
