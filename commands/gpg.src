@@ -1,34 +1,28 @@
-gpg = {}
-gpg.name = "gpg"
-gpg.args = "[-e/-d] [KEY] [PATH/STRING]"
-gpg.desc = "Encrypts/decrypts a string or file."
-gpg.full_desc = "This command will encrypt or decrypt a string or file where [-e/-d] is wether to encrypt or decrypt,\n where [KEY] is a 16 character long string,\n where [PATH/STRING] is the path to a file or string to encrypt/decrypt."
-gpg.handler_types = ["start", "shell", "computer", "file"]
-gpg.run = function(object, args)
-
-    if not args or args.len < 3 then; self.show_help; return; end if
-    if typeof(object) == "shell" then object = object.host_computer.File("/var")
-    if typeof(object) == "computer" then object = object.File("/var")
-    if args[1].len != 16 then; print("Error: Key must be 16 characters long."); return; end if
-    if args[0] == "-e" then type = "encrypt"
-    if args[0] == "-d" then type = "decrypt"
-    key = args[1]
-    encString = args[2]
-    file = findFile(object, args[2])
-
-    if file != null then
-        encString = file.get_content
-    end if
-
-    r = AES128(type, key, encString)
-
-    if typeof(r) == "null" then r = "Error"
-    print("-----BEGIN GPG MESSAGE-----")
-    print(r)
-    print("-----END GPG MESSAGE-----")
-
+gpg={}
+gpg.name="gpg"
+gpg.args="[-e/-d] [KEY] [PATH/STRING]"
+gpg.desc="Encrypts/decrypts a string or file."
+gpg.full_desc="This command will encrypt or decrypt a string or file where [-e/-d] is wether to encrypt or decrypt,\n where [KEY] is a 16 character long string,\n where [PATH/STRING] is the path to a file or string to encrypt/decrypt."
+gpg.handler_types=["start","shell","computer","file"]
+gpg.run=function(object,argv)
+  if not argv or argv.len!=3 then return self.show_help
+  if typeof(object)=="shell" then object=object.host_computer.File("/var")
+  if typeof(object)=="computer" then object=object.File("/var")
+  if argv[1].len!=16 then return  print("Error: Key must be 16 characters long.")
+  if argv[0]=="-e" then type="encrypt"
+  if argv[0]=="-d" then type="decrypt"
+  key=argv[1]
+  encString=argv[2]
+  file=findFile(object,argv[2])
+  if file!=null then
+      encString=file.get_content
+  end if
+  r=AES128(type,key,encString)
+  if typeof(r)=="null" then r="Error"
+  print("-----BEGIN GPG MESSAGE-----")
+  print(r)
+  print("-----END GPG MESSAGE-----")
 end function
-
-gpg.show_help = function()
-    show_help(self.name, self.args, self.full_desc, self.handler_types)
+gpg.show_help=function
+  show_help(self.name,self.args,self.full_desc,self.handler_types)
 end function

@@ -1,25 +1,19 @@
-delgroup = {}
-delgroup.name = "delgroup"
-delgroup.args = "[USER] [GROUP]"
-delgroup.desc = "Removes a user from a group."
-delgroup.full_desc = "This command will remove a user to a group where [USER] is the user and [GROUP] the group."
-delgroup.handler_types = ["start", "shell", "computer"]
-delgroup.run = function(object, args)
-
-    if not args or args.len < 2 then; self.show_help; return; end if
-    if typeof(object) == "shell" then object = object.host_computer
-    //command: groupdel
-
-    user = args[0]
-    group = args[1]
-
-    output = object.create_group(user, group)
-    if output == true then; print("Group " + group + " deleted from user " + user); return; end if
-    if output then; print(output); return; end if
-    print("Error: the group could not be deleted.")
-
+delgroup={}
+delgroup.name="delgroup"
+delgroup.args="[USER] [GROUP]"
+delgroup.desc="Removes a user from a group."
+delgroup.full_desc="This command will remove a user to a group where [USER] is the user and [GROUP] the group."
+delgroup.handler_types=["start","shell","computer"]
+delgroup.run=function(object,argv)
+  if not argv or argv.len!=2 then return self.show_help
+  if typeof(object)=="shell" then object=object.host_computer
+  group=argv.pop
+  user=argv.pop
+  output=object.create_group(user,group)
+  if output==true then return print("Group "+group+" deleted from user "+user)
+  if output then return print(output)
+  print("Error: the group could not be deleted.")
 end function
-
-delgroup.show_help = function()
-    show_help(self.name, self.args, self.full_desc, self.handler_types)
+delgroup.show_help=function
+  show_help(self.name,self.args,self.full_desc,self.handler_types)
 end function

@@ -1,6 +1,3 @@
-//json Parser
-//parse(file.get_content) //will load a json text file into a map
-//toJSON(map) //will convert the map to json string
 Parser={"hex_digit_map":{},"escape_to":["\\","\""","\b","\t","\n","\f","\r"],"eol":char(13),"escape_from":["\","""",char(8),char(9),char(10),char(12),char(13)],"escape_indexes":0,"white_space":" "+char(9)+char(10)+char(13),"source":"","source_len":0,"p":0,"classID":"ParserLib   1.0.0-rc.1"}
 Parser.hex_to_int=function(s)
 	r=0
@@ -34,40 +31,40 @@ Parser.unescape=function(s)
 			d=2
 			c=s[i+1]
 			if c=="b" then
-				r.push char(8)
+				r.push(char(8))
 				i=i+d
 				continue
 			end if
 			if c=="t" then
-				r.push char(9)
+				r.push(char(9))
 				i=i+d
 				continue
 			end if
 			if c=="n" then
-				r.push char(10)
+				r.push(char(10))
 				i=i+d
 				continue
 			end if
 			if c=="f" then
-				r.push char(12)
+				r.push(char(12))
 				i=i+d
 				continue
 			end if
 			if c=="r" then
-				r.push char(13)
+				r.push(char(13))
 				i=i+d
 				continue
 			end if
 			if c=="u" then
 				h=s[i+2:i+6]
-				r.push char(self.hex_to_int(h))
+				r.push(char(self.hex_to_int(h)))
 				d=6
 				i=i+d
 				continue
 			end if
-			r.push c
+			r.push(c)
 		else
-			r.push s[i]
+			r.push(s[i])
 		end if
 		i=i+d
 	end while
@@ -84,7 +81,7 @@ Parser.parse=function(s=null)
 end function
 Parser.skip_white_space=function
 	while self.p<self.source_len
-		c = self.source[self.p]
+		c=self.source[self.p]
 		if self.white_space.indexOf(c)==null then break
 		self.p=self.p+1
 	end while
@@ -120,7 +117,7 @@ Parser.parse_list=function
 	while self.p<self.source_len
 		c=self.source[self.p]
 		if c=="]" then break
-		r.push self.parse_element
+		r.push(self.parse_element)
 		self.skip_white_space
 		c=self.source[self.p]
 		if c=="," then
@@ -180,7 +177,7 @@ Parser.parse_string=function
 	return r
 end function
 Parser.parse_number=function
-	s = self.p
+	s=self.p
 	while self.p < self.source_len
 		c=self.source[self.p]
 		if "0123456789+-.eE".indexOf(c)==null then break
@@ -195,14 +192,14 @@ Parser.list_to_JSON=function(l,c,d)
 	f=1
 	for i in l
 		if not f then
-			p.push ","
-			p.push w
+			p.push(",")
+			p.push(w)
 		end if
-		p.push toJSON(i,c,d+1)
+		p.push(toJSON(i,c,d+1))
 		f=0
 	end for
-	if not c then p.push self.eol+"  "*d
-	p.push "]"
+	if not c then p.push(self.eol+"  "*d)
+	p.push("]")
 	return join(p,"")
 end function
 Parser.map_to_JSON=function(l,c,d)
@@ -211,16 +208,16 @@ Parser.map_to_JSON=function(l,c,d)
 	f=1
 	for k in l
 		if not f then
-			p.push ","
-			p.push w
+			p.push(",")
+			p.push(w)
 		end if
-		p.push toJSON(str(k.key))
-		p.push ":"
-		if not c then p.push " "
-		p.push toJSON(@k.value,c,d+1)
+		p.push(toJSON(str(k.key)))
+		p.push(":")
+		if not c then p.push(" ")
+		p.push(toJSON(@k.value,c,d+1))
 		f=0
 	end for
-	if not c then p.push self.eol+"  "*d
+	if not c then p.push(self.eol+"  "*d)
 	p.push "}"
 	return join(p,"")
 end function

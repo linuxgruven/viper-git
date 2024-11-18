@@ -1,33 +1,22 @@
-compile = {}
-compile.name = "compile"
-compile.args = "[SRCPATH] [DESTPATH]"
-compile.desc = "Compiles a program from source."
-compile.full_desc = "This command will compile a program from source where [SRCPATH] is the path to the sourcecode,\n and [DESTPATH] the path of the compiled program."
-compile.handler_types = ["start", "shell"]
-compile.run = function(object, args)
-
-    if not args or args.len < 2 then; self.show_help; return; end if
-    //command: compile
-    pathSource = args[0]
-    programPath = args[1]
-
-    shell = object
-    computer = shell.host_computer
-    fileSource = computer.File(pathSource)
-    folderDest = computer.File(programPath)
-
-    if fileSource == null then; print("compile: can't find "+ pathSource); return; end if
-    if folderDest == null then; print("compile: can't find " + programPath); return; end if
-        
-    output = shell.build(fileSource.path, folderDest.path)
-    if output.len == 0 then
-        print("compiled successfully.")
-    else
-        print(output);
-    end if
-
+compile={}
+compile.name="compile"
+compile.args="[SRCPATH] [DESTPATH]"
+compile.desc="Compiles a program from source."
+compile.full_desc="This command will compile a program from source where [SRCPATH] is the path to the sourcecode,\n and [DESTPATH] the path of the compiled program."
+compile.handler_types=["start","shell"]
+compile.run=function(object,argv)
+  if not argv or argv.len!=2 then return self.show_help
+  programPath=argv.pop
+  pathSource=argv.pop
+  shell=object
+  computer=shell.host_computer
+  fileSource=computer.File(pathSource)
+  if fileSource==null then return print("compile: can't find "+pathSource)
+  folderDest=computer.File(programPath)
+  if folderDest==null then return print("compile: can't find " +programPath)
+  output=build(shell,fileSource.path,folderDest.path)
+  if output.len==0 then print("compiled successfully.") else print(output)
 end function
-
-compile.show_help = function()
-    show_help(self.name, self.args, self.full_desc, self.handler_types)
+compile.show_help=function
+  show_help(self.name,self.args,self.full_desc,self.handler_types)
 end function
