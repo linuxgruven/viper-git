@@ -1,21 +1,16 @@
-import_code("./dictionary/list-1.src")
-import_code("./dictionary/list-2.src")
-import_code("./dictionary/list-3.src")
-import_code("./dictionary/list-4.src")
-import_code("./dictionary/list-5.src")
-import_code("./dictionary/list-6.src")
+import_code("./dictionary/list1.src")
+import_code("./dictionary/list2.src")
+import_code("./dictionary/list3.src")
+import_code("./dictionary/list4.src")
+import_code("./dictionary/list5.src")
+import_code("./dictionary/list6.src")
 load_passwords=function
-  if DictionaryManager.passwords!=null then self.passwords=DictionaryManager.passwords
-  DictionaryManager.passwords=[]
-  passwords=list1.split("\n")+list2.split("\n")+list3.split("\n")+list4.split("\n")+list5.split("\n")+list6.split("\n")
-  allPasswords=[]
-  handleLowerCase=function(password)
-    lowerPass=lower(password)
-    allPasswords.push(password)
-    allPasswords.push(lowerPass)
-  end function
-  forEach(passwords,@handleLowerCase)
-  DictionaryManager.passwords=allPasswords
+  if get_custom_object.hasIndex("dictionary") then return
+  get_custom_object.dictionary=[]
+  for password in list1.split("\n")+list2.split("\n")+list3.split("\n")+list4.split("\n")+list5.split("\n")+list6.split("\n")
+    get_custom_object.dictionary.push(password)
+    get_custom_object.dictionary.push(lower(password))
+  end for
 end function
 load_rainbow=function
   print("Generating rainbow tables...")
